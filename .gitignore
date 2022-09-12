@@ -1,0 +1,5 @@
+localize/
+dev/
+
+*.po
+*.mo
