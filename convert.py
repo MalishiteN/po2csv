@@ -1,4 +1,3 @@
-from base64 import encode
 import sys
 import os
 import csv
@@ -11,9 +10,9 @@ my_encodeing = 'utf_8_sig'
 my_po_name = 'export.po'
 
 def po2csv():
-    for name in glob.glob('localize/po/*/*.po'):
+    for name in glob.glob('data/po/*/*.po'):
         po = polib.pofile(name)
-        path = 'localize/csv/{}/'.format(po.metadata['Language'])
+        path = 'data/csv/{}/'.format(po.metadata['Language'])
         os.makedirs(path, exist_ok=True)
         # メタデータ
         with open(path + csv_metadata, 'w', newline='', encoding=my_encodeing) as csvfile:
@@ -28,7 +27,7 @@ def po2csv():
                 writer.writerow([entry.msgctxt ,entry.msgid, entry.msgstr])
 
 def csv2po():
-    for name in glob.glob('localize/csv/*/'):
+    for name in glob.glob('data/csv/*/'):
         po = polib.POFile()
         dict = {}
         # メタデータ
@@ -43,7 +42,7 @@ def csv2po():
                 entry = polib.POEntry(msgctxt=row[0], msgid=row[1], msgstr=row[2])
                 po.append(entry)
         
-        path = name + 'output/'
+        path = 'data/export/{}/'.format(po.metadata['Language'])
         os.makedirs(path, exist_ok=True)
         os.chmod(path, mode=0o755)
         #poファイル書き出し
